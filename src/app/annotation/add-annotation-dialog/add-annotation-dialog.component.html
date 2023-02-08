@@ -1,0 +1,19 @@
+<h1 mat-dialog-title>Add Annotation</h1>
+<div mat-dialog-content>
+  <form>
+    <mat-form-field appearance="fill">
+      <mat-select [(ngModel)]="selectedValue" [ngModelOptions]="{standalone: true}">
+        <mat-option
+          *ngFor="let annotationOption of annotationOptions | keyvalue"
+          [value]="annotationOption.value"
+        >
+          {{ annotationOption.key }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+  </form>
+</div>
+<div mat-dialog-actions>
+  <button mat-button mat-dialog-close>Cancel</button>
+  <button mat-button [mat-dialog-close]="selectedValue" cdkFocusInitial>Save</button>
+</div>

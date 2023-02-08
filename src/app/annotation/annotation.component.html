@@ -1,1 +1,51 @@
 <header [showImageBar]="true"></header>
+
+
+<div class="wrapper">
+  <div
+    style="display: flex; overflow: hidden"
+    *ngFor="let image of images; let i = index"
+  >
+    <div
+      class="canvas"
+      [id]="'div' + i"
+      [ngStyle]="{
+        transform: 'scale(' + canvas && canvas[i] ? canvas[i].scale : 1 + ')',
+        overflow:
+          canvas && canvas[i] && canvas[i].scale >= 1.1 ? 'hidden' : 'auto'
+      }"
+    >
+      <canvas [id]="'canvas' + i"> </canvas>
+      <span>{{ i + 1 }}</span>
+      <ng-template #dynamic></ng-template>
+    </div>
+    <div class="work-panel">
+      <p class="header">Work Panel:</p>
+      <hr />
+      <div>
+        <button
+          (click)="zoom(i, 0.1)"
+          mat-icon-button
+          class="example-icon favorite-icon"
+          aria-label="Zoom in"
+          matTooltip="Zoom in"
+        >
+          <mat-icon>zoom_in</mat-icon>
+        </button>
+        <button
+          (click)="zoom(i, -0.1)"
+          mat-icon-button
+          class="example-icon favorite-icon"
+          aria-label="Zoom out"
+          matTooltip="Zoom out"
+        >
+          <mat-icon>zoom_out</mat-icon>
+        </button>
+      </div>
+      <p>
+        Zoom-level:
+        {{ canvas && canvas[i] ? (canvas[i].scale * 100).toFixed(0) : 0 }}%
+      </p>
+    </div>
+  </div>
+</div>

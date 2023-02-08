@@ -1,0 +1,41 @@
+
+.wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.canvas {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+    position: relative;
+}
+
+.work-panel {
+    margin-top: 50px;
+    z-index: 99999;
+}
+
+.header {
+    font-size: 18px;
+    color: #2196f3;
+}
+
+.flex {
+    display: flex;
+}
+
+.add-button {
+    margin-left: 15px;
+}
+
+canvas {
+    vertical-align: middle;
+}
+
+.picture {
+    position: absolute;
+}

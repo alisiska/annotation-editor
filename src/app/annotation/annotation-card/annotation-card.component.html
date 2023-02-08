@@ -1,0 +1,35 @@
+<div
+  cdkDrag
+  (cdkDragEnded)="drop($event)"
+  class="picture-panel"
+  mwlResizable
+  [enableGhostResize]="true"
+  (resizeEnd)="onResizeEnd($event)"
+  [ngStyle]="{
+    top: top + 'px',
+    left: left + 'px',
+    width: style.width,
+    height: style.height
+  }"
+>
+  <div
+    class="resize-handle-top"
+    mwlResizeHandle
+    [resizeEdges]="{ top: true }"
+  ></div>
+  <div
+    class="resize-handle-left"
+    mwlResizeHandle
+    [resizeEdges]="{ left: true }"
+  ></div>
+  <div
+    class="resize-handle-right"
+    mwlResizeHandle
+    [resizeEdges]="{ right: true }"
+  ></div>
+  <div
+    class="resize-handle-bottom"
+    mwlResizeHandle
+    [resizeEdges]="{ bottom: true }"
+  ></div>
+</div>
