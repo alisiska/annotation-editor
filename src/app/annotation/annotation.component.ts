@@ -8,9 +8,14 @@ import {
 import { AnnotationService } from '../services/annotation.service';
 import { MatDialog } from '@angular/material/dialog';
 import { AddAnnotationDialogComponent } from './add-annotation-dialog/add-annotation-dialog.component';
-import { AnnotationOptions, CanvasData } from '../shared/models/shared.models';
+import {
+  AnnotationIndexes,
+  AnnotationOptions,
+  CanvasData,
+} from '../shared/models/shared.models';
 import { AnnotationCardComponent } from './annotation-card/annotation-card.component';
-import { ResizeEvent } from 'angular-resizable-element';
+import { AnnotationTextComponent } from './annotation-text/annotation-text.component';
+import { v1 as uuidv1 } from 'uuid';
 
 @Component({
   selector: 'app-annotation',
@@ -30,35 +35,46 @@ export class AnnotationComponent implements OnInit {
     public dialog: MatDialog
   ) {}
 
-  onResizeEnd(event: ResizeEvent): void {
-    console.log('Element was resized', event);
-  }
-  
   public ngOnInit(): void {
     this.images = this.annotationService.getImages();
     this.getCanvas();
   }
 
-  public addAnnotation(i: number, x: number, y: number) {
-    const component: any = this.dynamic
-      .get(i)
-      ?.createComponent(AnnotationCardComponent);
+  public addAnnotation(i: number, x: number, y: number, type: any) {
+    const annotationId: string = uuidv1();
+    let newItemData = {
+      image: this.canvas[i].image,
+      canvas: this.canvas[i].canvas,
+      scale: this.canvas[i].scale,
+      index: i,
+      annotations: [
+        ...this.canvas[i].annotations,
+        ...[{ type, positionX: x, positionY: y, id: annotationId }],
+      ],
+    };
+    let component: any;
+    if (type === AnnotationOptions.Picture) {
+      component = this.dynamic.get(i)?.createComponent(AnnotationCardComponent);
+    } else {
+      component = this.dynamic.get(i)?.createComponent(AnnotationTextComponent);
+    }
+
     if (component) {
-      component.instance.data = i;
+      component.instance.deleteAnnotationIndex.subscribe(
+        (value: AnnotationIndexes) => {
+          this.deleteAnnotation(value);
+        }
+      );
+      component.instance.documentIndex = i;
+      component.instance.annotationId = annotationId;
       component.instance.top = y;
       component.instance.left = x;
-      component.instance.currentAnnotationData = {
-        image: this.canvas[i].image,
-        canvas: this.canvas[i].canvas,
-        ctx: this.canvas[i].ctx,
-        scale: this.canvas[i].scale,
-        index: i,
-        annotations: [
-          { type: AnnotationOptions.Picture, positionX: x, positionY: y },
-        ],
-      };
+      component.instance.currentDocumentData = newItemData;
+      this.annotationService.setAnnotationData(i, newItemData);
+      this.canvas[i].annotations = newItemData.annotations;
+      console.log(this.annotationService.getAnnotationData(i));
+      this.canvas[i].components.push(component);
     }
-    this.canvas[i].components.push(component);
   }
 
   public zoom(i: number, scale: number): void {
@@ -71,11 +87,31 @@ export class AnnotationComponent implements OnInit {
     this.annotationService.setAnnotationData(i, {
       image: this.canvas[i].image,
       canvas: this.canvas[i].canvas,
-      ctx: this.canvas[i].ctx,
       scale: this.canvas[i].scale,
       index: i,
-      annotations: [],
+      annotations: this.canvas[i].annotations,
     });
+  }
+
+  private deleteAnnotation(indexes: AnnotationIndexes) {
+    this.canvas[indexes.documentId].components
+      .find(
+        (component) => component.instance.annotationId === indexes.annotationId
+      )
+      .destroy();
+    this.canvas[indexes.documentId].annotations = this.canvas[
+      indexes.documentId
+    ].annotations.filter(
+      (annotation: any) => annotation.id != indexes.annotationId
+    );
+    let newItemData = {
+      image: this.canvas[indexes.documentId].image,
+      canvas: this.canvas[indexes.documentId].canvas,
+      scale: this.canvas[indexes.documentId].scale,
+      index: indexes.documentId,
+      annotations: this.canvas[indexes.documentId].annotations,
+    };
+    this.annotationService.setAnnotationData(indexes.documentId, newItemData);
   }
 
   private openDialog(i: number, x: number, y: number): void {
@@ -84,7 +120,9 @@ export class AnnotationComponent implements OnInit {
       data: i,
     });
     dialogRef.afterClosed().subscribe((result) => {
-      this.addAnnotation(i, x, y);
+      if (result) {
+        this.addAnnotation(i, x, y, result);
+      }
     });
   }
 
@@ -108,26 +146,15 @@ export class AnnotationComponent implements OnInit {
           ctx,
           scale,
           components: [],
+          annotations: [],
         });
         this.annotationService.initAnnotationData(i);
         this.annotationService.setAnnotationData(i, {
           image,
-          canvas,
-          ctx,
           scale,
           index: i,
           annotations: [],
         });
-        canvas.onmousedown = (e: MouseEvent): void => {
-          this.openDialog(i, e.offsetX, e.offsetY);
-
-          console.log(e.offsetX, e.offsetY, this.canvas[i].scale);
-          console.log(
-            e.offsetX + e.offsetX * (1 - this.canvas[i].scale),
-            e.offsetY + e.offsetY * (1 - this.canvas[i].scale),
-            this.canvas[i].scale
-          );
-        };
       };
     });
   }

@@ -11,6 +11,10 @@ const routes: Routes = [
     path: 'annotation',
     loadChildren: () => import('./annotation/annotation.module').then((m) => m.AnnotationModule), //tslint:disable-line
   },
+  {
+    path: 'annotation-details',
+    loadChildren: () => import('./details/details.module').then((m) => m.DetailsModule), //tslint:disable-line
+  },
   { path: '**', redirectTo: '' },
 ];
 

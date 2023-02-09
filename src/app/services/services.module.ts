@@ -1,9 +1,10 @@
 import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { AnnotationService } from './annotation.service';
+import { OpenDetailsGuard } from './openPage.guard';
 
 @NgModule({
   imports: [HttpClientModule],
-  providers: [AnnotationService],
+  providers: [OpenDetailsGuard],
 })
 export class ServiceModule {}

@@ -1,10 +1,12 @@
 import { Injectable } from '@angular/core';
-import { Subject } from 'rxjs';
+import { BehaviorSubject, Subject } from 'rxjs';
 import { annotations } from './annotations.mock';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class AnnotationService {
-  private annotationData$: { [key: string]: Subject<any> } = {};
+  private annotationData$: { [key: string]: BehaviorSubject<any> } = {};
 
   public getImages(): Array<HTMLImageElement> {
     let imageArray: Array<HTMLImageElement> = [];
@@ -22,10 +24,14 @@ export class AnnotationService {
   }
 
   public initAnnotationData(i: number): void {
-    this.annotationData$[i] = new Subject();
+    this.annotationData$[i] = new BehaviorSubject(null);
   }
 
-  public getAnnotationData(i: number): Subject<any> {
+  public getAnnotationData(i: number): BehaviorSubject<any> {
     return this.annotationData$[i];
+  }
+
+  public getAllAnnotationData(): { [key: string]: BehaviorSubject<any> } {
+    return this.annotationData$;
   }
 }

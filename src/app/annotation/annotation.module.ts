@@ -15,6 +15,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { AnnotationCardComponent } from './annotation-card/annotation-card.component';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { ResizableModule } from 'angular-resizable-element';
+import { AnnotationTextComponent } from './annotation-text/annotation-text.component';
 
 @NgModule({
   imports: [
@@ -37,6 +38,7 @@ import { ResizableModule } from 'angular-resizable-element';
     AnnotationComponent,
     AddAnnotationDialogComponent,
     AnnotationCardComponent,
+    AnnotationTextComponent,
   ],
   entryComponents: [AnnotationCardComponent],
 })

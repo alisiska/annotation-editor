@@ -8,38 +8,43 @@
 }
 
 
-  mwlResizable {
+mwlResizable {
     box-sizing: border-box; // required for the enableGhostResize option to work
-  }
+}
 
-  .resize-handle-top,
-  .resize-handle-bottom {
+.resize-handle-top,
+.resize-handle-bottom {
     position: absolute;
     height: 5px;
     cursor: row-resize;
     width: 100%;
-  }
+}
 
-  .resize-handle-top {
+.resize-handle-top {
     top: 0;
-  }
+}
 
-  .resize-handle-bottom {
+.resize-handle-bottom {
     bottom: 0;
-  }
+}
 
-  .resize-handle-left,
-  .resize-handle-right {
+.resize-handle-left,
+.resize-handle-right {
     position: absolute;
     height: 100%;
     cursor: col-resize;
     width: 5px;
-  }
+}
 
-  .resize-handle-left {
+.resize-handle-left {
     left: 0;
-  }
+}
 
-  .resize-handle-right {
+.resize-handle-right {
     right: 0;
-  }
+}
+
+.delete-button {
+    margin-top: -47px;
+    position: absolute;
+}

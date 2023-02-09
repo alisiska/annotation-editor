@@ -1,0 +1,6 @@
+<header></header>
+
+<div class="details-main" *ngFor="let item of testArray; let i = index">
+  <span class="accent-item">{{ i + 1 }}:</span>
+  <pre> {{ item | json }}</pre>
+</div>

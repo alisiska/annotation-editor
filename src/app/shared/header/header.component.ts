@@ -23,4 +23,8 @@ export class HeaderComponent {
     this.showAnnotationBar = true;
     this.currentPanelType = type;
   }
+
+  public downloadAnnotation() {
+    this.router.navigate(['annotation-details']);
+  }
 }

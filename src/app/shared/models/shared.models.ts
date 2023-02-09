@@ -1,5 +1,5 @@
-import { ComponentRef } from "@angular/core";
-import { AnnotationCardComponent } from "src/app/annotation/annotation-card/annotation-card.component";
+import { ComponentRef } from '@angular/core';
+import { AnnotationCardComponent } from 'src/app/annotation/annotation-card/annotation-card.component';
 
 export enum Panels {
   File = 'file',
@@ -17,4 +17,10 @@ export interface CanvasData {
   ctx: CanvasRenderingContext2D;
   scale: number;
   components: Array<any>;
+  annotations: Array<any>;
+}
+
+export interface AnnotationIndexes {
+  annotationId: number;
+  documentId: number;
 }
