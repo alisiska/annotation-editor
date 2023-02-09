@@ -1,3 +1,22 @@
-<p>
-  annotation-text works!
-</p>
+<div
+  cdkDrag
+  (cdkDragEnded)="drop($event)"
+  [cdkDragFreeDragPosition]="dragPosition"
+  [cdkDragBoundary]="currentAnnotationData.canvas"
+  [ngStyle]="{
+    top: currentAnnotationData.positionY + 'px',
+    left: currentAnnotationData.positionX + 'px'
+  }"
+  class="text-panel"
+>
+  {{ annotationText }}
+  <button
+  mat-mini-fab
+  class="delete-button"
+  color="primary"
+  aria-label="Delete Button"
+  (click)="deleteAnnotation()"
+>
+  <mat-icon>delete</mat-icon>
+</button>
+</div>

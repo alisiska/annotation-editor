@@ -14,12 +14,13 @@ import {
 export class AddAnnotationDialogComponent {
   public annotationOptions: typeof AnnotationOptions = AnnotationOptions;
   public selectedValue: string = this.annotationOptions.Picture;
+  public annotationText: string = '';
   constructor(
     @Inject(MAT_DIALOG_DATA) public id: string,
     public dialogRef: MatDialogRef<AddAnnotationDialogComponent>
   ) {}
 
-  onNoClick(): void {
+  public onNoClick(): void {
     this.dialogRef.close();
   }
 }

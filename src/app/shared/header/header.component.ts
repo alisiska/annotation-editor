@@ -9,7 +9,6 @@ import { Panels } from '../models/shared.models';
 })
 export class HeaderComponent {
   @Input() public showImageBar: boolean = false;
-  @Input() public showAnnotationBar: boolean = false;
   public panelTypes: typeof Panels = Panels;
   public currentPanelType: string;
 
@@ -20,7 +19,6 @@ export class HeaderComponent {
   }
 
   public openPanel(type: string): void {
-    this.showAnnotationBar = true;
     this.currentPanelType = type;
   }
 

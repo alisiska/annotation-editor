@@ -1,11 +1,11 @@
 .spacer {
-    margin-right: 15px;
-}
-
-.menu-item {
-    cursor: pointer;
+    flex: 1 1 auto;
 }
 
 .accent {
     color: #FFDE03;
+}
+.donwload {
+    margin-left: 10px;
+    cursor: pointer;
 }

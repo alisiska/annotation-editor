@@ -1,27 +1,19 @@
-# AnnotationEditor
+# Annotations Component
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 15.2.0-next.3.
+## Description
+The project is designed to demonstrate a functionality of working with documents and annotations. The app allows you to load the data from a mock services and display them in the page /annotations. 
+Working with a document includes adding so called annotations in the view of pictures (added with links) and texts. 
+After saving the file, the user gets to the next page, where tehy can see the result data in a json format.
+## Setup
+to install the project use 
+- npm install
+- npm run start
 
-## Development server
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+## Project includes
+- External Libraries: angular-resize-event for reading the resize event data
+- UI libraries: Angular Material
 
-## Code scaffolding
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
-
-## Build
-
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
-
-## Running unit tests
-
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
-
-## Running end-to-end tests
-
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+## Angular version
+15.1.3

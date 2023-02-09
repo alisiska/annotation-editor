@@ -14,8 +14,9 @@ import { AddAnnotationDialogComponent } from './add-annotation-dialog/add-annota
 import { MatDialogModule } from '@angular/material/dialog';
 import { AnnotationCardComponent } from './annotation-card/annotation-card.component';
 import { DragDropModule } from '@angular/cdk/drag-drop';
-import { ResizableModule } from 'angular-resizable-element';
 import { AnnotationTextComponent } from './annotation-text/annotation-text.component';
+import { MatInputModule } from '@angular/material/input';
+import { AngularResizeEventModule } from 'angular-resize-event';
 
 @NgModule({
   imports: [
@@ -32,7 +33,8 @@ import { AnnotationTextComponent } from './annotation-text/annotation-text.compo
     MatSelectModule,
     MatDialogModule,
     DragDropModule,
-    ResizableModule,
+    MatInputModule,
+    AngularResizeEventModule,
   ],
   declarations: [
     AnnotationComponent,

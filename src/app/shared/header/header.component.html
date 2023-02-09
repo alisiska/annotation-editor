@@ -1,7 +1,6 @@
 <mat-toolbar color="primary">
   <mat-toolbar-row>
     <span>Annotation Editor</span>
-    <span class="example-spacer"></span>
     <button
       mat-icon-button
       class="example-icon"
@@ -13,48 +12,10 @@
   </mat-toolbar-row>
 
   <mat-toolbar-row *ngIf="showImageBar">
-    <span
-      class="menu-item spacer"
-      [ngClass]="{ accent: currentPanelType === panelTypes.File }"
-      (click)="openPanel(panelTypes.File)"
-      >File</span
+    <span class="spacer"></span>
+    <span class="menu-item">Save Annotation </span>
+    <mat-icon (click)="downloadAnnotation()" class="donwload"
+      >save</mat-icon
     >
-    <span
-      class="menu-item"
-      [ngClass]="{ accent: currentPanelType === panelTypes.Annotation }"
-      (click)="openPanel(panelTypes.Annotation)"
-      >Annotation</span
-    >
-  </mat-toolbar-row>
-
-  <mat-toolbar-row *ngIf="showAnnotationBar">
-    <ng-container [ngSwitch]="currentPanelType">
-      <div *ngSwitchCase="panelTypes.File">
-        <button
-          mat-icon-button
-          class="example-icon favorite-icon"
-          aria-label="Example icon-button with heart icon"
-          (click)="downloadAnnotation()"
-        >
-          <mat-icon>download</mat-icon>
-        </button>
-        <button
-          mat-icon-button
-          class="example-icon"
-          aria-label="Example icon-button with share icon"
-        >
-          <mat-icon>upload</mat-icon>
-        </button>
-      </div>
-      <div *ngSwitchCase="panelTypes.Annotation">
-        <button
-          mat-icon-button
-          class="example-icon"
-          aria-label="Example icon-button with share icon"
-        >
-          <mat-icon>home</mat-icon>
-        </button>
-      </div>
-    </ng-container>
   </mat-toolbar-row>
 </mat-toolbar>

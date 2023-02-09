@@ -12,6 +12,7 @@ import {
   AnnotationIndexes,
   AnnotationOptions,
   CanvasData,
+  DocumentData,
 } from '../shared/models/shared.models';
 import { AnnotationCardComponent } from './annotation-card/annotation-card.component';
 import { AnnotationTextComponent } from './annotation-text/annotation-text.component';
@@ -40,23 +41,37 @@ export class AnnotationComponent implements OnInit {
     this.getCanvas();
   }
 
-  public addAnnotation(i: number, x: number, y: number, type: any) {
+  public addAnnotation(
+    i: number,
+    x: number,
+    y: number,
+    dialogData: { annotationText: string; type: string }
+  ) {
     const annotationId: string = uuidv1();
-    let newItemData = {
-      image: this.canvas[i].image,
-      canvas: this.canvas[i].canvas,
+    let newItemData: DocumentData = {
       scale: this.canvas[i].scale,
       index: i,
       annotations: [
         ...this.canvas[i].annotations,
-        ...[{ type, positionX: x, positionY: y, id: annotationId }],
+        ...[
+          {
+            type: dialogData.type,
+            positionX: x,
+            positionY: y,
+            height: 200,
+            width: 200,
+            id: annotationId,
+            annotationText: dialogData.annotationText ?? '',
+          },
+        ],
       ],
     };
     let component: any;
-    if (type === AnnotationOptions.Picture) {
+    if (dialogData.type === AnnotationOptions.Picture) {
       component = this.dynamic.get(i)?.createComponent(AnnotationCardComponent);
     } else {
       component = this.dynamic.get(i)?.createComponent(AnnotationTextComponent);
+      
     }
 
     if (component) {
@@ -65,6 +80,7 @@ export class AnnotationComponent implements OnInit {
           this.deleteAnnotation(value);
         }
       );
+      component.instance.annotationText = dialogData.annotationText;
       component.instance.documentIndex = i;
       component.instance.annotationId = annotationId;
       component.instance.top = y;
@@ -72,7 +88,6 @@ export class AnnotationComponent implements OnInit {
       component.instance.currentDocumentData = newItemData;
       this.annotationService.setAnnotationData(i, newItemData);
       this.canvas[i].annotations = newItemData.annotations;
-      console.log(this.annotationService.getAnnotationData(i));
       this.canvas[i].components.push(component);
     }
   }
@@ -85,8 +100,6 @@ export class AnnotationComponent implements OnInit {
     ) as HTMLDivElement;
     div.style.scale = `${this.canvas[i].scale}`;
     this.annotationService.setAnnotationData(i, {
-      image: this.canvas[i].image,
-      canvas: this.canvas[i].canvas,
       scale: this.canvas[i].scale,
       index: i,
       annotations: this.canvas[i].annotations,
@@ -105,7 +118,6 @@ export class AnnotationComponent implements OnInit {
       (annotation: any) => annotation.id != indexes.annotationId
     );
     let newItemData = {
-      image: this.canvas[indexes.documentId].image,
       canvas: this.canvas[indexes.documentId].canvas,
       scale: this.canvas[indexes.documentId].scale,
       index: indexes.documentId,
@@ -116,14 +128,16 @@ export class AnnotationComponent implements OnInit {
 
   private openDialog(i: number, x: number, y: number): void {
     const dialogRef = this.dialog.open(AddAnnotationDialogComponent, {
-      width: '250px',
+      width: '350px',
       data: i,
     });
-    dialogRef.afterClosed().subscribe((result) => {
-      if (result) {
-        this.addAnnotation(i, x, y, result);
-      }
-    });
+    dialogRef
+      .afterClosed()
+      .subscribe((result: { annotationText: string; type: string }) => {
+        if (result) {
+          this.addAnnotation(i, x, y, result);
+        }
+      });
   }
 
   public getCanvas(): void {
@@ -150,11 +164,13 @@ export class AnnotationComponent implements OnInit {
         });
         this.annotationService.initAnnotationData(i);
         this.annotationService.setAnnotationData(i, {
-          image,
           scale,
           index: i,
           annotations: [],
         });
+        canvas.onmousedown = (e: MouseEvent): void => {
+          this.openDialog(i, e.offsetX, e.offsetY);
+        };
       };
     });
   }

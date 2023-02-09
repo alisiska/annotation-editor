@@ -3,7 +3,6 @@
     height: 100px;
     width: 100px;
     border: solid 1px black;
-    background: red;
     z-index: 999;
 }
 
@@ -45,6 +44,12 @@ mwlResizable {
 }
 
 .delete-button {
-    margin-top: -47px;
+    right: 0;
     position: absolute;
+    color: #2196f3;
+    cursor: pointer;
+}
+
+.handle {
+    cursor: pointer;
 }

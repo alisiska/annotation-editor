@@ -1,46 +1,35 @@
 <div
-  class="picture-panel"
-  mwlResizable
-  [enableGhostResize]="true"
-  (resizeEnd)="onResizeEnd($event)"
   cdkDrag
   (cdkDragEnded)="drop($event)"
   [cdkDragFreeDragPosition]="dragPosition"
-  [cdkDragBoundary]="currentAnnotationData.canvas"
+  style="
+    overflow: auto;
+    resize: both;
+    border: 1px solid #2196f3;
+    height: 100px;
+    width: 100px;
+  "
+  class="picture-panel"
   [ngStyle]="{
     top: currentAnnotationData.positionY + 'px',
     left: currentAnnotationData.positionX + 'px',
-    width: style.width,
-    height: style.height
+    width: currentAnnotationData.width + 'px',
+    height: currentAnnotationData.height + 'px',
+    background: 'url(' + annotationText + ')',
+    'background-repeat': 'no-repeat',
+    'background-size': 'contain',
+    'background-position': 'center'
   }"
+  (resized)="onResizeEnd($event)"
 >
-  <button
-    mat-mini-fab
-    class="delete-button"
-    color="primary"
-    aria-label="Delete Button"
-    (click)="deleteAnnotation()"
-  >
-    <mat-icon>delete</mat-icon>
-  </button>
-  <div
-    class="resize-handle-top"
-    mwlResizeHandle
-    [resizeEdges]="{ top: true }"
-  ></div>
-  <div
-    class="resize-handle-left"
-    mwlResizeHandle
-    [resizeEdges]="{ left: true }"
-  ></div>
-  <div
-    class="resize-handle-right"
-    mwlResizeHandle
-    [resizeEdges]="{ right: true }"
-  ></div>
-  <div
-    class="resize-handle-bottom"
-    mwlResizeHandle
-    [resizeEdges]="{ bottom: true }"
-  ></div>
+  <mat-icon class="delete-button" (click)="deleteAnnotation()">delete</mat-icon>
+
+  <div cdkDragHandle>
+    <svg class="handle" width="24px" fill="#2196f3" viewBox="0 0 24 24">
+      <path
+        d="M10 9h4V6h3l-5-5-5 5h3v3zm-1 1H6V7l-5 5 5 5v-3h3v-4zm14 2l-5-5v3h-3v4h3v3l5-5zm-9 3h-4v3H7l5 5 5-5h-3v-3z"
+      ></path>
+      <path d="M0 0h24v24H0z" fill="none"></path>
+    </svg>
+  </div>
 </div>
